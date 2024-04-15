@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spacegaze_bap_clean/routing/router.dart';
 import 'package:spacegaze_bap_clean/theme/theme.dart';
-import 'package:spacegaze_bap_clean/views/home_page/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'SpaceGaze Clean',
       theme: SpaceGazeTheme.darkTheme,
-      home: const HomePage(),
+      routerConfig: SpaceGazeRouter().router,
     );
   }
 }
