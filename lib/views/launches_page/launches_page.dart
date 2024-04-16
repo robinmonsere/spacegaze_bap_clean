@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazy_loading_list/lazy_loading_list.dart';
 
 import '../../models/Launch.dart';
+import '../../services/ll_repo.dart';
+import '../../theme/color.dart';
+import '../../util/dateFormating.dart';
 
 class LaunchPage extends StatefulWidget {
   const LaunchPage({super.key});
@@ -39,28 +43,16 @@ class _LaunchPageState extends State<LaunchPage> {
         loadMoreUpcoming();
       }
     });
-    if (!api.hasFetchedPreviousLaunches) {
-      print("fetchAndUpdatePreviousLaunches");
-      api.fetchAndUpdatePreviousLaunches();
-    } else {
-      print("data has already been fetched");
-      api.populateLaunches();
-    }
-    if (!api.hasFetchedUpcomingLaunches) {
-      api.fetchAndUpdateUpcomingLaunches();
-    }
+    // todo: fetch the launches
     upcomingLaunchesStream = api.upcomingLaunchesStream;
     previousLaunchesStream = api.previousLaunchesStream;
   }
 
   loadMorePrevious() {
     print("loadMorePrevious");
-    api.fetchAndUpdatePreviousLaunches();
   }
 
-  loadMoreUpcoming() {
-    api.fetchAndUpdateUpcomingLaunches();
-  }
+  loadMoreUpcoming() {}
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +158,7 @@ class _LaunchPageState extends State<LaunchPage> {
   launchBlock(Launch launch) {
     return GestureDetector(
       onTap: () {
-        context.go("/launch");
+        context.go("/launch", extra: launch);
         //context.goNamed("/launch/${launch.id}");
       },
       child: Container(
@@ -278,7 +270,7 @@ class _LaunchPageState extends State<LaunchPage> {
         const SizedBox(
           height: 5,
         ),
-        LaunchCountdown(launch: launch),
+        // TOdo launch countdown
       ],
     );
   }

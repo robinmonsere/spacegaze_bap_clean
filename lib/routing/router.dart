@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:spacegaze_bap_clean/routing/spacegaze_router_constants.dart';
 
 import '../views/home_page/home_page.dart';
+import '../views/single_launch_page/singleLaunchPage.dart';
 
 class SpaceGazeRouter {
   GoRouter router = GoRouter(

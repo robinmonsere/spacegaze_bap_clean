@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../models/Launch.dart';
 import '../../theme/color.dart';
 
 class SingleLaunchPage extends StatelessWidget {
-  SingleLaunchPage({super.key, required this.launch});
-
-  Launch launch;
+  const SingleLaunchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Launch launch = GoRouterState.of(context).extra as Launch;
     final String? imageUrl = launch.image;
     return SingleChildScrollView(
       child: Column(

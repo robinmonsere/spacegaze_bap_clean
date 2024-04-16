@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spacegaze_bap_clean/views/home_page/ui/bottom_nav_bar.dart';
 
 import '../launches_page/launches_page.dart';
 
@@ -48,7 +49,7 @@ class _SpaceGazeHomePageState extends State<HomePage> {
             ),
           ],
         ),
-        //bottomNavigationBar: spaceGazeBottomNavigationBar(),
+        bottomNavigationBar: spaceGazeBottomNavigationBar(),
       ),
     );
   }
