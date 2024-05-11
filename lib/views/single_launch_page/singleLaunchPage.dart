@@ -47,7 +47,7 @@ class SingleLaunchPage extends StatelessWidget {
                   child: Text(launch.mission!.name ?? "",
                       style: Theme.of(context).textTheme.headlineMedium),
                 ),
-                Icon(Icons.expand_more_rounded, color: Colors.white),
+                const Icon(Icons.expand_more_rounded, color: Colors.white),
               ],
             ),
           ),

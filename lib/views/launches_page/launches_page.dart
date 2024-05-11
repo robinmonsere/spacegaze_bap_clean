@@ -178,7 +178,7 @@ class _LaunchPageState extends State<LaunchPage> {
               Text(launch.mission!.name ?? "no name provided",
                   style: Theme.of(context).textTheme.bodyMedium),
               Text(launch.lsp?.name ?? ""),
-              Spacer(),
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

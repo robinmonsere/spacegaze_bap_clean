@@ -43,12 +43,34 @@ class LaunchLibraryApi {
     }
   }
 
-  Future<void> fetchAndUpdatePreviousLaunches() async {
-    // todo
-    throw UnimplementedError();
+  Future<List<Launch>> fetchAndUpdatePreviousLaunches() async {
+    final url = Uri.parse('$_baseUrl/previous?limit=5&offset=0&mode=normal');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<dynamic> launchesJson = json.decode(response.body)['results'];
+      List<Launch> launches = launchesJson
+          .map((json) => Launch.fromJson(json))
+          .toList(); // Update the offset based on the number of items fetched
+      return launches;
+    } else {
+      throw Exception('Failed to load recent launches');
+    }
   }
 
-  Future<void> fetchAndUpdateUpcomingLaunches() async {
-    throw UnimplementedError();
+  Future<List<Launch>> fetchAndUpdateUpcomingLaunches() async {
+    //return List<Launch>.empty();
+    final url = Uri.parse('$_baseUrl/upcoming?limit=5&offset=0&mode=normal');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<dynamic> launchesJson = json.decode(response.body)['results'];
+      List<Launch> launches = launchesJson
+          .map((json) => Launch.fromJson(json))
+          .toList(); // Update the offset based on the number of items fetched
+      return launches;
+    } else {
+      throw Exception('Failed to load upcoming launches');
+    }
   }
 }
