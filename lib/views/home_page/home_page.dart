@@ -49,7 +49,8 @@ class _SpaceGazeHomePageState extends State<HomePage> {
             ),
           ],
         ),
-        bottomNavigationBar: spaceGazeBottomNavigationBar(),
+        bottomNavigationBar: SpaceGazeBottomNavigationBar(
+            onViewChange: _onViewChange, currentPageIndex: _currentPageIndex),
       ),
     );
   }

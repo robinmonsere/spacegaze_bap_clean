@@ -2,75 +2,77 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:rxdart/rxdart.dart';
 
 import '../models/Launch.dart';
 
-class LaunchLibraryApi {
-  static final LaunchLibraryApi apiService = LaunchLibraryApi._internal();
+class LaunchRepository {
+  final String _baseUrl = 'https://lldev.thespacedevs.com/2.2.0/launch';
+  final BehaviorSubject<List<Launch>> _upcomingLaunchesController =
+      BehaviorSubject<List<Launch>>();
+  final BehaviorSubject<List<Launch>> _previousLaunchesController =
+      BehaviorSubject<List<Launch>>();
+  String? _nextUpcomingUrl;
+  String? _nextPreviousUrl;
 
-  final StreamController<List<Launch>> _previousLaunchesController =
-      StreamController.broadcast();
-  final StreamController<List<Launch>> _upcomingLaunchesController =
-      StreamController.broadcast();
-
-  final _baseUrl = "https://lldev.thespacedevs.com/2.2.0/launch";
-
-  factory LaunchLibraryApi.launchLibraryApi() {
-    return apiService;
-  }
-
-  LaunchLibraryApi._internal();
-
-  void dispose() {
-    _previousLaunchesController.close();
-    _upcomingLaunchesController.close();
-  }
-
-  Stream<List<Launch>> get previousLaunchesStream =>
-      _previousLaunchesController.stream;
   Stream<List<Launch>> get upcomingLaunchesStream =>
       _upcomingLaunchesController.stream;
+  Stream<List<Launch>> get previousLaunchesStream =>
+      _previousLaunchesController.stream;
 
-  Future<Launch> getLaunchById(int id) async {
-    final url = Uri.parse('$_baseUrl/$id'); // Replace with the actual API URL
-
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      return Launch.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load launch data');
-    }
+  LaunchRepository() {
+    _nextUpcomingUrl = '$_baseUrl/upcoming?limit=5&offset=0&mode=normal';
+    _nextPreviousUrl = '$_baseUrl/previous?limit=5&offset=0&mode=normal';
+    fetchUpcomingLaunches();
+    fetchPreviousLaunches();
   }
 
-  Future<List<Launch>> fetchAndUpdatePreviousLaunches() async {
-    final url = Uri.parse('$_baseUrl/previous?limit=5&offset=0&mode=normal');
+  void fetchUpcomingLaunches() async {
+    await _fetchLaunches(_nextUpcomingUrl, _upcomingLaunchesController,
+        isUpcoming: true);
+  }
+
+  void fetchPreviousLaunches() async {
+    await _fetchLaunches(_nextPreviousUrl, _previousLaunchesController,
+        isUpcoming: false);
+  }
+
+  Future<void> _fetchLaunches(
+      String? nextUrl, BehaviorSubject<List<Launch>> controller,
+      {required bool isUpcoming}) async {
+    if (nextUrl == null) {
+      return; // No more data to fetch
+    }
+
+    final url = Uri.parse(nextUrl);
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       List<dynamic> launchesJson = json.decode(response.body)['results'];
-      List<Launch> launches = launchesJson
-          .map((json) => Launch.fromJson(json))
-          .toList(); // Update the offset based on the number of items fetched
-      return launches;
+      String nextUrl = json.decode(response.body)['next'];
+      List<Launch> launches =
+          launchesJson.map((json) => Launch.fromJson(json)).toList();
+
+      // Update the next URL
+      if (isUpcoming) {
+        _nextUpcomingUrl = nextUrl;
+      } else {
+        _nextPreviousUrl = nextUrl;
+      }
+
+      // Add new launches to the existing stream
+      if (controller.valueOrNull != null) {
+        controller.add(controller.valueOrNull!..addAll(launches));
+      } else {
+        controller.add(launches);
+      }
     } else {
-      throw Exception('Failed to load recent launches');
+      throw Exception('Failed to load launches');
     }
   }
 
-  Future<List<Launch>> fetchAndUpdateUpcomingLaunches() async {
-    //return List<Launch>.empty();
-    final url = Uri.parse('$_baseUrl/upcoming?limit=5&offset=0&mode=normal');
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      List<dynamic> launchesJson = json.decode(response.body)['results'];
-      List<Launch> launches = launchesJson
-          .map((json) => Launch.fromJson(json))
-          .toList(); // Update the offset based on the number of items fetched
-      return launches;
-    } else {
-      throw Exception('Failed to load upcoming launches');
-    }
+  void dispose() {
+    _upcomingLaunchesController.close();
+    _previousLaunchesController.close();
   }
 }

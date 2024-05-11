@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.2.1
   go_router: ^13.2.4
   lazy_loading_list: ^1.0.1
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:

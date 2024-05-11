@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:spacegaze_bap_clean/routing/spacegaze_router_constants.dart';
 
 import '../../models/Launch.dart';
 import '../../theme/color.dart';
@@ -26,7 +27,7 @@ class SingleLaunchPage extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    context.goNamed(SpaceGazeRouterConstants.homePage);
                   },
                 ),
                 Flexible(
@@ -90,11 +91,12 @@ class SingleLaunchPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Add to Calendar",
+                          Text("Add to Calendar ",
                               style: Theme.of(context).textTheme.bodyMedium),
                           const Icon(Icons.calendar_today, color: Colors.white),
                         ],
@@ -106,7 +108,7 @@ class SingleLaunchPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("View pad location",
+                          Text("View pad location ",
                               style: Theme.of(context).textTheme.bodyMedium),
                           const Icon(Icons.location_on, color: Colors.white),
                         ],
