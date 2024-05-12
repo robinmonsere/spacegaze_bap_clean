@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spacegaze_bap_clean/routing/spacegaze_router_constants.dart';
+import 'package:spacegaze_bap_clean/views/single_launch_page/ui/widgets/launch_detail_info.dart';
 
 import '../../models/Launch.dart';
 import '../../theme/color.dart';
@@ -52,7 +53,6 @@ class SingleLaunchPage extends StatelessWidget {
               ],
             ),
           ),
-
           if (imageUrl != null)
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -128,29 +128,6 @@ class SingleLaunchPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-// A reusable info widget for time, date, and status
-class LaunchDetailInfo extends StatelessWidget {
-  final String title;
-  final String value;
-
-  const LaunchDetailInfo({
-    super.key,
-    required this.title,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(title, style: Theme.of(context).textTheme.bodySmall),
-        Text(value, style: Theme.of(context).textTheme.bodyLarge),
-      ],
     );
   }
 }

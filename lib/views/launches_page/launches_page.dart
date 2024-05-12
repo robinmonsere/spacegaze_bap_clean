@@ -60,8 +60,8 @@ class _LaunchPageState extends State<LaunchPage> {
       padding: const EdgeInsets.all(15),
       child: SingleChildScrollView(
         child: Container(
-          constraints:
-              BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height - 50),
+          constraints: BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height - 150),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
