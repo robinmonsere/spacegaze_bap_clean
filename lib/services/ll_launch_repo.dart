@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 
 import '../models/Launch.dart';
+import 'LaunchRepositoryInterface.dart';
 
-class LaunchRepository {
+class LaunchRepository implements LaunchRepositoryInterface {
   final String _baseUrl = 'https://lldev.thespacedevs.com/2.2.0/launch';
   final BehaviorSubject<List<Launch>> _upcomingLaunchesController =
       BehaviorSubject<List<Launch>>();
@@ -15,8 +16,10 @@ class LaunchRepository {
   String? _nextUpcomingUrl;
   String? _nextPreviousUrl;
 
+  @override
   Stream<List<Launch>> get upcomingLaunchesStream =>
       _upcomingLaunchesController.stream;
+  @override
   Stream<List<Launch>> get previousLaunchesStream =>
       _previousLaunchesController.stream;
 
@@ -27,11 +30,13 @@ class LaunchRepository {
     fetchPreviousLaunches();
   }
 
+  @override
   void fetchUpcomingLaunches() async {
     await _fetchLaunches(_nextUpcomingUrl, _upcomingLaunchesController,
         isUpcoming: true);
   }
 
+  @override
   void fetchPreviousLaunches() async {
     await _fetchLaunches(_nextPreviousUrl, _previousLaunchesController,
         isUpcoming: false);
@@ -71,6 +76,7 @@ class LaunchRepository {
     }
   }
 
+  @override
   void dispose() {
     _upcomingLaunchesController.close();
     _previousLaunchesController.close();
