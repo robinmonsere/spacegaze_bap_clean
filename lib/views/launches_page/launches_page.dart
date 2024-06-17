@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spacegaze_bap_clean/services/ll_repo_interface.dart';
 import 'package:spacegaze_bap_clean/views/launches_page/ui/widgets/upcoming_launches.dart';
 
 import '../../models/Launch.dart';
@@ -14,7 +15,7 @@ class LaunchPage extends StatefulWidget {
 }
 
 class _LaunchPageState extends State<LaunchPage> {
-  late final LaunchRepository _repository;
+  late final LaunchRepositoryInterface _repository;
 
   late final ScrollController _previousScrollController;
   late final ScrollController _upcomingScrollController;
