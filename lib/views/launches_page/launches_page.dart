@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spacegaze_bap_clean/services/ll_repo_interface.dart';
 import 'package:spacegaze_bap_clean/views/launches_page/ui/widgets/upcoming_launches.dart';
 
 import '../../models/Launch.dart';
-import '../../services/ll_repo.dart';
+import '../../services/LaunchRepositoryInterface.dart';
+import '../../services/ll_launch_repo.dart';
 import 'ui/widgets/previous_launches.dart';
 import 'ui/widgets/upcoming_launch.dart';
 

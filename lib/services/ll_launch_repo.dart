@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
 
 import '../models/Launch.dart';
-import 'll_repo_interface.dart';
+import 'LaunchRepositoryInterface.dart';
 
 class LaunchRepository implements LaunchRepositoryInterface {
   final String _baseUrl = 'https://lldev.thespacedevs.com/2.2.0/launch';
